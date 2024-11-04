@@ -1,3 +1,8 @@
+Import-Module ServerManager
+Add-WindowsFeature RSAT-Remote-Server-Administration-Tools
+Get-ExecutionPolicy
+Set-ExecutionPolicy RemoteSigned
+
 # Check if ran as administrator
 $ShouldBypassAdminCheck = Test-Path -Path "./BypassAdmin"
 if (!$ShouldBypassAdminCheck -and (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator'))) {
@@ -240,10 +245,10 @@ function UpdatePasswd {
     $uniqueamt = Read-Host "Enforce password history amount (Suggested: 5)"
     net accounts /uniquepw:$uniqueamt
     # Lockout Threshold
-    $lockoutamt = Read-Host "Secure lockout threshold amount (Suggested: 3)"
+    $lockoutamt = Read-Host "Secure lockout threshold amount (Suggested: 5)"
     net accounts /lockoutthreshold:$lockoutamt
     # Complexity Requirements
-    Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters' -Name 'PasswordComplexity' -Value 1
+    Write-Output "Go to secpol.msc and enable Complexity Requirements"
     gpupdate /force
 }
 # Changes the policies/audits
@@ -263,10 +268,26 @@ function ConfigPolicies {
 
 # Turns on Firewall
 function Firewall {
-    Set-NetFirewallProfile -Profile Domain, Private, Public -Enabled True
-    Install-WindowsFeature -Name Windows-Defender-Features -IncludeManagementTools
-    Set-Service -Name WinDefend -StartupType Automatic
-    Start-Service -Name WinDefend
+# Check for RSAT and execute Install-WindowsFeature if available
+if (Get-Command Install-WindowsFeature -ErrorAction SilentlyContinue) {
+    Install-WindowsFeature -Name Windows-Defender-Features -IncludeManagementTools -ErrorAction SilentlyContinue
+} else {
+    Write-Warning "Install-WindowsFeature cmdlet not found. RSAT may not be installed."
+}
+
+# Try to set the service startup type, handling potential errors
+try {
+    Set-Service -Name WinDefend -StartupType Automatic -ErrorAction Stop
+} catch {
+    Write-Warning "Failed to set service startup type: $($_.Exception.Message)"
+}
+
+# Start the service, handling potential errors
+try {
+    Start-Service -Name WinDefend -ErrorAction Stop
+} catch {
+    Write-Warning "Failed to start the service: $($_.Exception.Message)"
+}
 }
 
 # Disables AutoPlay
@@ -302,7 +323,6 @@ function removePrograms {
     Get-AppxPackage *3dbuilder* | Remove-AppxPackage
     Get-AppxPackage *onenote* | Remove-AppxPackage
     Write-Output "If this didn't get everything, make sure to check and remove it in Control Panel/Programs."
-    pause
 }
 # Disables the guest account
 function guestAcc {
