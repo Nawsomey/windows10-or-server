@@ -230,23 +230,18 @@ function UpdatePasswd {
     # Minimum Password Length
     $minlenamount = Read-Host "Minimum password length amount (Suggested: 10)"
     net accounts /minpwlen:$minlenamount
-    Write-Output "Set minpwlen to $minamount"
     # Minimum Password Age
     $minageamount = Read-Host "Minimum password age amount (Suggested: 2)"
     net accounts /minpwage:$minageamount
-    Write-Output "Set minpwage to $minageamount"
     # Maximum Password Age
     $maxageamount = Read-Host "Maximum password age amount (Suggested: 90)"
     net accounts /maxpwage:$maxageamount
-    Write-Output "Set maxpwage to $maxageamount"
     # Enforce password history
     $uniqueamt = Read-Host "Enforce password history amount (Suggested: 5)"
     net accounts /uniquepw:$uniqueamt
-    Write-Output "Set uniquepw to $uniqueamt"
     # Lockout Threshold
     $lockoutamt = Read-Host "Secure lockout threshold amount (Suggested: 3)"
     net accounts /lockoutthreshold:$lockoutamt
-    Write-Output "Set lockoutthreshold to $lockoutamt"
     # Complexity Requirements
     Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters' -Name 'PasswordComplexity' -Value 1
     gpupdate /force
