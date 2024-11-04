@@ -107,12 +107,6 @@ function UserMenu {
             Set-LocalUser -Name $_.Name -Password $NewPassword
             Write-Output "Password changed for all users."
             }
-            # Change password for all local administrators
-            Get-LocalGroupMember -Group "Administrators" | ForEach-Object {
-            Set-LocalUser -Name $_.Name -Password $NewPassword
-            Write-Output "Password changed for all admins."
-            }
-            Write-Output "Password changed for all users and administrators."
         }
         'q' {
             Write-Output 'Going back...'
