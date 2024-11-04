@@ -253,7 +253,6 @@ function ConfigPolicies {
     #  Behavior of the elevation prompt for admins in admin approval mode configured to prompt
     Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System' -Name 'ConsentPromptBehaviorAdmin' -Value 2
     # Enables SmartScreen on Warn
-    New-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer' -Name 'SmartScreenEnabled' -PropertyType DWORD -Value 1
     Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SmartScreenEnabled' -Value 1
     # Remove users from User Rights Assignment
     Write-Output "Check in User Rights Assignment at secpol.msc to make sure there aren't any users in any of them. If there are, remove them."
