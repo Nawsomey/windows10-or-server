@@ -287,6 +287,7 @@ try {
     Start-Service -Name WinDefend -ErrorAction Stop
 } catch {
     Write-Warning "Failed to start the service: $($_.Exception.Message)"
+    Write-Output "gpedit.msc -> Local Computer Policy -> Computer Config -> Admin Temps -> Windows Comp -> SmartScreen -> Explorer -> Configure SmartScreen (Select Enabled and configure it to Warn)"
 }
 }
 
