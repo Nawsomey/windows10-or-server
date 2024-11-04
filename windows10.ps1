@@ -287,8 +287,8 @@ try {
     Start-Service -Name WinDefend -ErrorAction Stop
 } catch {
     Write-Warning "Failed to start the service: $($_.Exception.Message)"
+    Write-Output "gpedit.msc -> Local Computer Policy -> Computer Config -> Admin Temps -> Windows Comp -> SmartScreen -> Explorer -> Configure SmartScreen (Select Enabled and configure it to Warn)"
 }
-Write-Output "gpedit.msc -> Local Computer Policy -> Computer Config -> Admin Temps -> Windows Comp -> SmartScreen -> Explorer -> Configure SmartScreen (Select Enabled and configure it to Warn)"
 }
 
 # Disables AutoPlay
@@ -307,7 +307,11 @@ function disFTP {
 function stopServices {
     Set-Service -Name "W3SVC" -StartupType Disabled
     Stop-Service -Name "W3SVC"
+    # Netcat backdoor
     Get-Process -Name nc, ncat -ErrorAction SilentlyContinue | Stop-Process -Force
+    Get-ChildItem -Path "C:\Program Files", "C:\Program Files (x86)", "C:\Windows" -Recurse -Filter "nc.exe" -ErrorAction SilentlyContinue
+    $pathway = Read-Host "Type the path to the nc.exe (C:\Path\To\nc.exe)"
+    Remove-Item -Path $pathway -Force
 }
 # Searches for files
 function searchFiles {
