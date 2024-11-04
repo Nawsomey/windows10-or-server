@@ -259,7 +259,6 @@ function ConfigPolicies {
     gpupdate /force
     # Remove users from User Rights Assignment
     Write-Output "Check in User Rights Assignment at secpol.msc to make sure there aren't any users in any of them. If there are, remove them."
-    pause
 }
 
 # Turns on Firewall
