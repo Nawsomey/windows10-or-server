@@ -267,6 +267,7 @@ function ConfigPolicies {
     Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SmartScreenEnabled' -Name 'SmartScreenEnabled' -Value 'Warn'
     # Remove users from User Rights Assignment
     Write-Output "Check in User Rights Assignment at secpol.msc to make sure there aren't any users in any of them. If there are, remove them."
+    pause
 }
 
 # Turns on Firewall
@@ -310,6 +311,7 @@ function removePrograms {
     Get-AppxPackage *3dbuilder* | Remove-AppxPackage
     Get-AppxPackage *onenote* | Remove-AppxPackage
     Write-Output "If this didn't get everything, make sure to check and remove it in Control Panel/Programs."
+    pause
 }
 # Disables the guest account
 function guestAcc {
