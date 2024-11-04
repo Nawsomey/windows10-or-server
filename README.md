@@ -1,4 +1,5 @@
 Make sure to read the README and research critical services on how to secure them.
+
 How to run the powershell script:
 1. Open PowerShell as an Administrator.
 2. Type Set-ExecutionPolicy Unrestricted.
