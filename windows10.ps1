@@ -75,26 +75,26 @@ function UserMenu {
 
     switch ($selection) {
         '1' {
-            $AddUserName = Read-Host -AsSecureString "Enter a Username"
+            $AddUserName = Read-Host "Enter a Username"
             $Password = Read-Host -AsSecureString "Enter a Password"
-            $FullName = Read-Host -AsSecureString "Enter the Full Name"
-            $Desc = Read-Host -AsSecureString "Enter the Description"
+            $FullName = Read-Host "Enter the Full Name"
+            $Desc = Read-Host "Enter the Description"
             New-LocalUser -Name $AddUserName -Password $Password -FullName $FullName -Description $Desc -Enabled $true
             Write-Output "$AddUserName has been created."
         }
         '2' {
-            $RemoveUserName = Read-Host -AsSecureString "Enter the username you would like to remove"
-            Remove-LocalUser -Name $RemoveUserName -Confirm
+            $RemoveUserName = Read-Host "Enter the username you would like to remove"
+            Remove-LocalUser -Name $RemoveUserName
             Write-Output "$RemoveUserName has been removed."
         }
         '3' {
-            $AdminUserName = Read-Host -AsSecureString "Enter the username you would like to make admin"
-            Add-LocalGroupMember -Group "Administrators" -Member $AdminUserName -Confirm
+            $AdminUserName = Read-Host "Enter the username you would like to make admin"
+            Add-LocalGroupMember -Group "Administrators" -Member $AdminUserName
             Write-Output "$AdminUserName is now an admin."
         }
         '4' {
-            $RemoveAdmin = Read-Host -AsSecureString "Enter the username you would like to remove as admin"
-            Remove-LocalGroupMember -Group "Administrators" -Member $RemoveAdmin -Confirm
+            $RemoveAdmin = Read-Host "Enter the username you would like to remove as admin"
+            Remove-LocalGroupMember -Group "Administrators" -Member $RemoveAdmin
             Write-Output "$RemoveAdmin is no longer admin."
         }
         '5' {
@@ -178,25 +178,25 @@ function GroupMenu {
 
     switch ($selection) {
         '1' {
-            $NewGroupName = Read-Host -AsSecureString "Enter your new group name"
-            New-LocalGroup -Name $NewGroupName -Description "Description of the new group" -Confirm
+            $NewGroupName = Read-Host "Enter your new group name"
+            New-LocalGroup -Name $NewGroupName -Description "Description of the new group"
             Write-Output "The group $NewGroupName has been created."
         }
         '2' {
-            $RemoveGroupName = Read-Host -AsSecureString "Enter the group name"
-            Remove-LocalGroup -Name $RemoveGroupName -Confirm
+            $RemoveGroupName = Read-Host "Enter the group name"
+            Remove-LocalGroup -Name $RemoveGroupName
             Write-Output "The group $RemoveGroupName has been removed."
         }
         '3' {
-            $GroupName = Read-Host -AsSecureString "Enter the group name"
-            $UserName = Read-Host -AsSecureString "Enter the username"
-            Add-LocalGroupMember -Group $GroupName -Member $UserName -Confirm
+            $GroupName = Read-Host "Enter the group name"
+            $UserName = Read-Host "Enter the username"
+            Add-LocalGroupMember -Group $GroupName -Member $UserName
             Write-Output "$UserName has been added to $GroupName."
         }
         '4' {
-            $GroupName2 = Read-Host -AsSecureString "Enter the group name"
-            $UserName2 = Read-Host -AsSecureString "Enter the username"
-            Remove-LocalGroupMember -Group $GroupName2 -Member $UserName2 -Confirm
+            $GroupName2 = Read-Host "Enter the group name"
+            $UserName2 = Read-Host "Enter the username"
+            Remove-LocalGroupMember -Group $GroupName2 -Member $UserName2
             Write-Output "$UserName2 has been removed from $GroupName2."
         }
         '5' {
@@ -234,23 +234,23 @@ function GroupMenu {
 # Password Requirements
 function UpdatePasswd {
     # Minimum Password Length
-    $minlenamount = Read-Host -AsSecureString "Minimum password length amount (Suggested: 10)"
+    $minlenamount = Read-Host "Minimum password length amount (Suggested: 10)"
     net accounts /minpwlen:$minlenamount
     Write-Output "Set minpwlen to $minamount"
     # Minimum Password Age
-    $minageamount = Read-Host -AsSecureString "Minimum password age amount (Suggested: 2)"
+    $minageamount = Read-Host "Minimum password age amount (Suggested: 2)"
     net accounts /minpwage:$minageamount
     Write-Output "Set minpwage to $minageamount"
     # Maximum Password Age
-    $maxageamount = Read-Host -AsSecureString "Maximum password age amount (Suggested: 90)"
+    $maxageamount = Read-Host "Maximum password age amount (Suggested: 90)"
     net accounts /maxpwage:$maxageamount
     Write-Output "Set maxpwage to $maxageamount"
     # Enforce password history
-    $uniqueamt = Read-Host -AsSecureString "Enforce password history amount (Suggested: 5)"
+    $uniqueamt = Read-Host "Enforce password history amount (Suggested: 5)"
     net accounts /uniquepw:$uniqueamt
     Write-Output "Set uniquepw to $uniqueamt"
     # Lockout Threshold
-    $lockoutamt = Read-Host -AsSecureString "Secure lockout threshold amount (Suggested: 3)"
+    $lockoutamt = Read-Host "Secure lockout threshold amount (Suggested: 3)"
     net accounts /lockoutthreshold:$lockoutamt
     Write-Output "Set lockoutthreshold to $lockoutamt"
     # Complexity Requirements
